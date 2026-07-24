@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dokumentasi - OSIS & MPK SMA YAS SINDANGKERTA</title>
+  <title>OSIS & MPK SMA YAS SINDANGKERTA</title>
 
+  <!-- Open Graph: biar preview bagus pas link dibagi ke WA/bio Instagram/TikTok -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Dokumentasi - OSIS & MPK SMA YAS SINDANGKERTA" />
-  <meta property="og:description" content="Kumpulan momen kegiatan OSIS & MPK dalam bentuk foto." />
+  <meta property="og:title" content="OSIS & MPK SMA YAS SINDANGKERTA" />
+  <meta property="og:description" content="Sampaikan aspirasi, lihat program kerja, dan ikuti kegiatan organisasi sekolah kita di satu tempat." />
   <meta property="og:image" content="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" />
-  <meta property="og:url" content="https://GANTI-DENGAN-DOMAIN-KAMU/pages/dokumentasi.html" />
+  <meta property="og:url" content="https://GANTI-DENGAN-DOMAIN-KAMU/index.html" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Tema aktif, di-swap oleh js/home.js -->
   <link id="theme-stylesheet" rel="stylesheet" href="/css/theme-dark-blue.css" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -19,9 +21,8 @@
 
   <header class="site-header">
     <div class="header-brand">
-      <a href="/index.html">
-        <img src="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" alt="Logo Sekolah" />
-      </a>
+      <!-- TODO: ganti src ini dengan link GitHub raw logo sekolah -->
+      <img src="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" alt="Logo Sekolah" />
       <div>
         <h1>OSIS MPK SMA YASSIN</h1>
         <span>Forum Aspirasi & Informasi Siswa</span>
@@ -29,11 +30,14 @@
     </div>
 
     <div class="header-actions">
+      <!-- Tombol toggle tema, pakai icon vector (SVG), bukan emoji -->
       <button id="theme-toggle-btn" class="theme-toggle" aria-label="Ganti tema">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"></path>
         </svg>
       </button>
+
+      <!-- Tombol hamburger, cuma keliatan di layar kecil -->
       <button id="hamburger-btn" class="hamburger-btn" aria-label="Buka menu" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -49,44 +53,121 @@
     </div>
   </div>
 
+  <!-- Nav dipindah keluar dari <header> supaya gak kejebak stacking context-nya
+       (ini penyebab link nav kemarin gak bisa diklik) -->
   <nav id="main-nav" class="main-nav">
-    <a href="/index.html">Beranda</a>
+    <a href="/index.html" class="active">Beranda</a>
     <a href="/pages/berita.html">Berita</a>
-    <a href="/pages/dokumentasi.html" class="active">Dokumentasi</a>
+    <a href="/pages/dokumentasi.html">Dokumentasi</a>
     <a href="/pages/profil.html">Profil</a>
   </nav>
 
+  <!-- Overlay gelap saat menu mobile terbuka -->
   <div id="nav-overlay" class="nav-overlay"></div>
 
-  <section class="dokumentasi-section">
+  <section class="hero">
+    <h2>Selamat Datang di Forum OSIS & MPK</h2>
+    <p>Sampaikan aspirasi, lihat program kerja, dan ikuti kegiatan organisasi sekolah kita di satu tempat.</p>
+  </section>
+
+  <section class="struktur-section">
     <div class="section-heading">
-      <h3>Dokumentasi</h3>
-      <p>Kumpulan momen kegiatan OSIS & MPK dalam bentuk foto.</p>
-      <span class="counter-badge" id="dokumentasi-counter"></span>
+      <h3>Struktur Organisasi</h3>
+      <p>Kenali pengurus OSIS dan MPK periode ini</p>
+      <span class="counter-badge" id="anggota-counter"></span>
     </div>
 
-    <div class="dokumentasi-grup-list" id="dokumentasi-grid">
-      <!-- Diisi oleh js/dokumentasi.js -->
+    <!-- Filter OSIS / MPK / Semua -->
+    <div class="struktur-filter" id="struktur-filter">
+      <button class="filter-btn active" data-filter="semua">Semua</button>
+      <button class="filter-btn" data-filter="OSIS">OSIS</button>
+      <button class="filter-btn" data-filter="MPK">MPK</button>
     </div>
 
-    <div class="empty-state" id="dokumentasi-empty" hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
-      <p>Belum ada dokumentasi yang diunggah.</p>
+    <!-- Grid kartu anggota, diisi oleh js/home.js -->
+    <div class="struktur-grid" id="struktur-grid">
+      <!-- Skeleton loading, tampil sementara data Firestore lagi diambil -->
+      <div class="anggota-card skeleton"><div class="skeleton-avatar"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+      <div class="anggota-card skeleton"><div class="skeleton-avatar"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+      <div class="anggota-card skeleton"><div class="skeleton-avatar"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+      <div class="anggota-card skeleton"><div class="skeleton-avatar"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+    </div>
+
+    <!-- Empty state, ditampilkan lewat JS kalau data kosong -->
+    <div class="empty-state" id="struktur-empty" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <p>Belum ada data anggota. Data akan muncul di sini setelah ditambahkan lewat dashboard admin.</p>
     </div>
   </section>
 
-  <!-- Lightbox untuk lihat foto ukuran penuh -->
-  <div id="lightbox" class="lightbox-overlay" hidden>
-    <button id="lightbox-close-btn" class="lightbox-close" aria-label="Tutup">&times;</button>
-    <figure class="lightbox-content">
-      <img id="lightbox-img" src="" alt="" />
-      <figcaption id="lightbox-caption"></figcaption>
-    </figure>
-  </div>
+  <!-- ===== Proker Unggulan ===== -->
+  <section class="proker-preview-section">
+    <div class="section-heading">
+      <h3>Program Kerja</h3>
+      <p>Program kerja unggulan dari pengurus OSIS & MPK periode ini</p>
+    </div>
+
+    <div id="proker-preview-card">
+      <div class="proker-card skeleton">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+      </div>
+    </div>
+
+    <div class="empty-state" id="proker-preview-empty" hidden>
+      <p>Belum ada proker unggulan yang ditandai admin.</p>
+    </div>
+
+    <a href="/pages/proker.html" class="btn-secondary lihat-semua-btn">Lihat Semua Proker</a>
+  </section>
+
+  <!-- ===== Dokumentasi Terbaru ===== -->
+  <section class="dokumentasi-preview-section">
+    <div class="section-heading">
+      <h3>Dokumentasi Terbaru</h3>
+      <p>Momen terbaru dari kegiatan OSIS & MPK</p>
+      <span class="counter-badge" id="dokumentasi-preview-counter"></span>
+    </div>
+
+    <div class="dokumentasi-carousel" id="dokumentasi-carousel" hidden>
+      <button id="carousel-prev-btn" class="carousel-nav-btn" aria-label="Foto sebelumnya">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <img id="carousel-img" src="" alt="" />
+        <div class="carousel-caption">
+          <span id="carousel-acara-nama"></span>
+          <span id="carousel-counter"></span>
+        </div>
+      </div>
+
+      <button id="carousel-next-btn" class="carousel-nav-btn" aria-label="Foto berikutnya">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <div class="carousel-thumbs" id="carousel-thumbs">
+      <!-- Diisi js/beranda-preview.js: thumbnail semua foto di acara yang sama -->
+    </div>
+
+    <div class="empty-state" id="dokumentasi-preview-empty" hidden>
+      <p>Belum ada dokumentasi yang diunggah.</p>
+    </div>
+
+    <a href="/pages/dokumentasi.html" class="btn-secondary lihat-semua-btn">Lihat Semua Dokumentasi</a>
+  </section>
 
   <footer class="site-footer">
     <p>&copy; 2026 OSIS & MPK SMA YAS SINDANGKERTA. Seluruh hak cipta dilindungi.</p>
     <div class="footer-social">
+      <!-- TODO: ganti href di bawah dengan link Instagram & TikTok resmi OSIS/MPK -->
       <a href="https://instagram.com/USERNAME" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>
       </a>
@@ -101,7 +182,7 @@
   </a>
 
   <nav class="bottom-tab-bar">
-    <a href="/index.html" class="bottom-tab-link">
+    <a href="/index.html" class="bottom-tab-link active">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       <span>Beranda</span>
     </a>
@@ -115,7 +196,7 @@
       </span>
       <span>Saran</span>
     </a>
-    <a href="/pages/dokumentasi.html" class="bottom-tab-link active">
+    <a href="/pages/dokumentasi.html" class="bottom-tab-link">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
       <span>Dokumentasi</span>
     </a>
@@ -127,6 +208,6 @@
 
   <script type="module" src="/js/firebase-config.js"></script>
   <script type="module" src="/js/home.js"></script>
-  <script type="module" src="/js/dokumentasi.js"></script>
+  <script type="module" src="/js/beranda-preview.js"></script>
 </body>
 </html>
