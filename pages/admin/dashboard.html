@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin - OSIS & MPK SMA YAS SINDANGKERTA</title>
+
+  <link id="theme-stylesheet" rel="stylesheet" href="/css/theme-dark-blue.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Ditampilkan sementara sambil cek status login -->
+  <div id="auth-checking" class="auth-checking">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="dashboard-app" class="dashboard-layout" hidden>
+
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" id="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" alt="Logo" />
+        <span>Admin Panel</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-link active" data-tab="pesan">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          Pesan Anonim
+          <span class="badge-count" id="badge-pesan-belum-dibaca" hidden>0</span>
+        </button>
+        <button class="sidebar-link" data-tab="anggota">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Anggota
+        </button>
+        <button class="sidebar-link" data-tab="proker">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          Proker
+        </button>
+        <button class="sidebar-link" data-tab="dokumentasi">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+          Dokumentasi
+        </button>
+        <button class="sidebar-link" data-tab="akun">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Akun Anggota
+        </button>
+      </nav>
+
+      <div class="sidebar-settings">
+        <label for="kode-undangan-input">Kode Undangan Member</label>
+        <div class="kode-undangan-box">
+          <input type="text" id="kode-undangan-input" placeholder="Kode undangan" />
+          <button type="button" id="kode-undangan-save-btn" class="btn-secondary btn-sm">Simpan</button>
+        </div>
+        <span id="kode-undangan-status" class="upload-status"></span>
+
+        <label for="jadikan-admin-input" class="sidebar-settings-label-spaced">Jadikan Admin (username)</label>
+        <div class="kode-undangan-box">
+          <input type="text" id="jadikan-admin-input" placeholder="username anggota" />
+          <button type="button" id="jadikan-admin-btn" class="btn-secondary btn-sm">Jadikan</button>
+        </div>
+        <span id="jadikan-admin-status" class="upload-status"></span>
+
+        <div id="daftar-admin-list" class="daftar-admin-list"></div>
+      </div>
+
+      <button id="logout-btn" class="sidebar-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Keluar
+      </button>
+    </aside>
+
+    <!-- Konten utama -->
+    <main class="dashboard-main">
+      <header class="dashboard-topbar">
+        <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-label="Buka menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        <h2 id="dashboard-title">Pesan Anonim</h2>
+
+        <div class="github-token-box" title="Dipakai buat upload foto/gambar langsung ke GitHub. Disimpan sementara di browser ini aja, ilang kalau tab ditutup.">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <input type="password" id="github-token-input" placeholder="Token GitHub" />
+        </div>
+
+        <span id="admin-email" class="admin-email-tag"></span>
+      </header>
+
+      <!-- ===== Tab: Pesan Anonim ===== -->
+      <section class="dashboard-tab active" id="tab-pesan">
+        <div class="tab-toolbar">
+          <div class="tab-filter-chips">
+            <button class="chip active" data-pesan-filter="semua">Semua</button>
+            <button class="chip" data-pesan-filter="belum">Belum Dibaca</button>
+          </div>
+        </div>
+
+        <div class="pesan-list" id="pesan-list">
+          <!-- Diisi oleh js/admin/pesan-admin.js -->
+        </div>
+
+        <div class="empty-state" id="pesan-list-empty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <p>Belum ada pesan masuk.</p>
+        </div>
+      </section>
+
+      <!-- ===== Tab: Anggota ===== -->
+      <section class="dashboard-tab" id="tab-anggota">
+        <div class="tab-toolbar">
+          <button id="anggota-add-btn" class="btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Tambah Anggota
+          </button>
+        </div>
+
+        <div class="admin-grid" id="anggota-admin-grid">
+          <!-- Diisi oleh js/admin/anggota-admin.js -->
+        </div>
+
+        <div class="empty-state" id="anggota-admin-empty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <p>Belum ada anggota. Klik "Tambah Anggota" untuk mulai menambahkan.</p>
+        </div>
+      </section>
+
+      <!-- ===== Tab: Proker (diisi step berikutnya) ===== -->
+      <section class="dashboard-tab" id="tab-proker">
+        <div class="tab-toolbar">
+          <button id="proker-add-btn" class="btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Tambah Proker
+          </button>
+        </div>
+
+        <div class="admin-grid" id="proker-admin-grid">
+          <!-- Diisi oleh js/admin/proker-admin.js -->
+        </div>
+
+        <div class="empty-state" id="proker-admin-empty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <p>Belum ada proker. Klik "Tambah Proker" untuk mulai menambahkan.</p>
+        </div>
+      </section>
+
+      <!-- ===== Tab: Dokumentasi (diisi step berikutnya) ===== -->
+      <section class="dashboard-tab" id="tab-dokumentasi">
+        <div class="tab-toolbar">
+          <button id="dokumentasi-add-btn" class="btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Tambah Dokumentasi
+          </button>
+        </div>
+
+        <div class="admin-grid" id="dokumentasi-admin-grid">
+          <!-- Diisi oleh js/admin/dokumentasi-admin.js -->
+        </div>
+
+        <div class="empty-state" id="dokumentasi-admin-empty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+          <p>Belum ada dokumentasi. Klik "Tambah Dokumentasi" untuk mulai menambahkan.</p>
+        </div>
+      </section>
+
+      <!-- ===== Tab: Akun Anggota ===== -->
+      <section class="dashboard-tab" id="tab-akun">
+        <div class="tab-toolbar">
+          <p class="tab-toolbar-note">Kelola akun anggota yang udah daftar sendiri lewat halaman Daftar. Kasih title/jabatan, centang biru, atau hapus akun kalau perlu.</p>
+        </div>
+
+        <div class="admin-grid" id="akun-admin-grid">
+          <!-- Diisi oleh js/admin/akun-admin.js -->
+        </div>
+
+        <div class="empty-state" id="akun-admin-empty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <p>Belum ada anggota yang daftar akun.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal konfirmasi hapus -->
+  <div id="confirm-modal" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal">
+      <h4>Hapus pesan ini?</h4>
+      <p>Tindakan ini gak bisa dibatalkan.</p>
+      <div class="confirm-modal-actions">
+        <button id="confirm-cancel-btn" class="btn-secondary">Batal</button>
+        <button id="confirm-delete-btn" class="btn-danger">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal form Tambah/Edit Anggota -->
+  <div id="anggota-form-modal" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal admin-form-modal">
+      <h4 id="anggota-form-title">Tambah Anggota</h4>
+
+      <form id="anggota-form" class="admin-form">
+        <input type="hidden" id="anggota-id" />
+
+        <label for="anggota-nama">Nama</label>
+        <input type="text" id="anggota-nama" placeholder="Nama lengkap" required />
+
+        <label for="anggota-jabatan">Jabatan</label>
+        <input type="text" id="anggota-jabatan" placeholder="Ketua OSIS, Sekretaris, dll" required />
+
+        <label for="anggota-jenis">Jenis</label>
+        <select id="anggota-jenis" required>
+          <option value="OSIS">OSIS</option>
+          <option value="MPK">MPK</option>
+        </select>
+
+        <label for="anggota-divisi">Divisi (opsional)</label>
+        <input type="text" id="anggota-divisi" placeholder="Contoh: Sie. Humas" />
+
+        <label for="anggota-foto">URL Foto (opsional)</label>
+        <input type="url" id="anggota-foto" placeholder="https://..." />
+
+        <div class="upload-github-box">
+          <input type="file" id="anggota-foto-file" accept="image/*" />
+          <button type="button" id="anggota-foto-upload-btn" class="btn-secondary btn-sm">Upload ke GitHub</button>
+        </div>
+        <span id="anggota-foto-upload-status" class="upload-status"></span>
+
+        <div id="anggota-form-alert" class="pesan-alert" hidden></div>
+
+        <div class="confirm-modal-actions">
+          <button type="button" id="anggota-form-cancel-btn" class="btn-secondary">Batal</button>
+          <button type="submit" id="anggota-form-submit-btn" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal form Tambah/Edit Proker -->
+  <div id="proker-form-modal" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal admin-form-modal">
+      <h4 id="proker-form-title">Tambah Proker</h4>
+
+      <form id="proker-form" class="admin-form">
+        <input type="hidden" id="proker-id" />
+
+        <label for="proker-judul">Judul Proker</label>
+        <input type="text" id="proker-judul" placeholder="Contoh: Lomba 17 Agustus" required />
+
+        <label for="proker-deskripsi">Deskripsi</label>
+        <textarea id="proker-deskripsi" rows="3" placeholder="Deskripsi singkat program kerja"></textarea>
+
+        <label for="proker-status">Status</label>
+        <select id="proker-status" required>
+          <option value="Direncanakan">Direncanakan</option>
+          <option value="Berjalan">Berjalan</option>
+          <option value="Selesai">Selesai</option>
+        </select>
+
+        <label for="proker-divisi">Divisi/PJ (opsional)</label>
+        <input type="text" id="proker-divisi" placeholder="Contoh: Sie. Olahraga" />
+
+        <label for="proker-tanggal">Tanggal (opsional)</label>
+        <input type="text" id="proker-tanggal" placeholder="Contoh: Agustus 2026" />
+
+        <label class="admin-form-checkbox">
+          <input type="checkbox" id="proker-unggulan" />
+          Jadikan proker unggulan (ditampilkan di beranda)
+        </label>
+
+        <div id="proker-form-alert" class="pesan-alert" hidden></div>
+
+        <div class="confirm-modal-actions">
+          <button type="button" id="proker-form-cancel-btn" class="btn-secondary">Batal</button>
+          <button type="submit" id="proker-form-submit-btn" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal form Tambah/Edit Dokumentasi -->
+  <div id="dokumentasi-form-modal" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal admin-form-modal">
+      <h4 id="dokumentasi-form-title">Tambah Dokumentasi</h4>
+
+      <form id="dokumentasi-form" class="admin-form">
+        <input type="hidden" id="dokumentasi-id" />
+
+        <label for="dokumentasi-judul">Judul (opsional)</label>
+        <input type="text" id="dokumentasi-judul" placeholder="Contoh: Upacara 17 Agustus" />
+
+        <label for="dokumentasi-acara">Nama Acara</label>
+        <input type="text" id="dokumentasi-acara" list="dokumentasi-acara-list" placeholder="Contoh: MPLS 2026" required />
+        <datalist id="dokumentasi-acara-list"></datalist>
+
+        <label for="dokumentasi-gambar">URL Gambar</label>
+        <input type="url" id="dokumentasi-gambar" placeholder="https://..." required />
+
+        <div class="upload-github-box">
+          <input type="file" id="dokumentasi-gambar-file" accept="image/*,video/*" />
+          <button type="button" id="dokumentasi-gambar-upload-btn" class="btn-secondary btn-sm">Upload ke GitHub</button>
+        </div>
+        <span id="dokumentasi-gambar-upload-status" class="upload-status"></span>
+
+        <label for="dokumentasi-tanggal">Tanggal (opsional)</label>
+        <input type="text" id="dokumentasi-tanggal" placeholder="Contoh: 17 Agustus 2026" />
+
+        <div id="dokumentasi-form-alert" class="pesan-alert" hidden></div>
+
+        <div class="confirm-modal-actions">
+          <button type="button" id="dokumentasi-form-cancel-btn" class="btn-secondary">Batal</button>
+          <button type="submit" id="dokumentasi-form-submit-btn" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal edit akun anggota (title/jabatan + centang biru) -->
+  <div id="akun-edit-modal" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal admin-form-modal">
+      <h4>Edit Akun</h4>
+      <p id="akun-edit-info" class="akun-edit-info"></p>
+
+      <form id="akun-edit-form" class="admin-form">
+        <input type="hidden" id="akun-edit-uid" />
+
+        <label for="akun-edit-role">Title / Jabatan</label>
+        <input type="text" id="akun-edit-role" placeholder="Contoh: Ketua OSIS, Anggota Eskul Basket" />
+
+        <label class="admin-form-checkbox">
+          <input type="checkbox" id="akun-edit-verified" />
+          Centang biru (verified)
+        </label>
+
+        <div id="akun-edit-alert" class="pesan-alert" hidden></div>
+
+        <div class="confirm-modal-actions">
+          <button type="button" id="akun-edit-cancel-btn" class="btn-secondary">Batal</button>
+          <button type="submit" id="akun-edit-save-btn" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/firebase-config.js"></script>
+  <script type="module" src="/js/admin/dashboard.js"></script>
+  <script type="module" src="/js/admin/pesan-admin.js"></script>
+  <script type="module" src="/js/admin/anggota-admin.js"></script>
+  <script type="module" src="/js/admin/proker-admin.js"></script>
+  <script type="module" src="/js/admin/dokumentasi-admin.js"></script>
+  <script type="module" src="/js/admin/akun-admin.js"></script>
+  <script type="module" src="/js/admin/pengaturan-admin.js"></script>
+</body>
+</html>

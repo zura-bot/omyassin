@@ -1,0 +1,13 @@
+/* Tema: Dark Blue */
+:root {
+  --color-bg: #0b1626;
+  --color-bg-secondary: #132238;
+  --color-surface: #1a2c47;
+  --color-text: #e8eef7;
+  --color-text-muted: #a8b8cf;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #5b9bff;
+  --color-border: #24395a;
+  --color-accent-osis: #3b82f6;
+  --color-accent-mpk: #f59e0b;
+}

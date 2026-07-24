@@ -1,0 +1,13 @@
+/* Tema: Blue White */
+:root {
+  --color-bg: #f4f8fd;
+  --color-bg-secondary: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #16233b;
+  --color-text-muted: #5b6b85;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-border: #dce6f5;
+  --color-accent-osis: #2563eb;
+  --color-accent-mpk: #d97706;
+}

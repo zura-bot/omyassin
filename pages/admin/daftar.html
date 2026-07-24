@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Akun Anggota - OSIS & MPK SMA YAS SINDANGKERTA</title>
+
+  <link id="theme-stylesheet" rel="stylesheet" href="/css/theme-dark-blue.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <main class="login-page">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" alt="Logo Sekolah" />
+        <h1>Daftar Akun Anggota</h1>
+        <p>Khusus anggota OSIS & MPK — perlu kode undangan dari admin</p>
+      </div>
+
+      <form id="daftar-form" class="login-form">
+        <label for="daftar-nama">Nama Lengkap</label>
+        <input type="text" id="daftar-nama" placeholder="Nama kamu" required />
+
+        <label for="daftar-username">Username</label>
+        <input type="text" id="daftar-username" placeholder="tanpa spasi, huruf kecil semua" pattern="[a-zA-Z0-9_]{3,20}" required />
+
+        <label for="daftar-email">Email</label>
+        <input type="email" id="daftar-email" placeholder="email@contoh.com" required />
+
+        <label for="daftar-password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="daftar-password" placeholder="Minimal 6 karakter" minlength="6" required />
+          <button type="button" id="toggle-password" class="toggle-password" aria-label="Tampilkan password">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+
+        <label for="daftar-kode">Kode Undangan</label>
+        <input type="text" id="daftar-kode" placeholder="Minta ke pengurus OSIS/MPK" required />
+
+        <button type="submit" id="daftar-submit-btn" class="btn-primary btn-block">
+          Daftar
+        </button>
+      </form>
+
+      <div id="daftar-alert" class="pesan-alert" hidden></div>
+
+      <p class="login-switch">
+        Udah punya akun? <a href="/pages/admin/login-member.html">Masuk di sini</a>
+      </p>
+    </div>
+  </main>
+
+  <script type="module" src="/js/firebase-config.js"></script>
+  <script type="module" src="/js/daftar.js"></script>
+</body>
+</html>

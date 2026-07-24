@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil - OSIS & MPK SMA YAS SINDANGKERTA</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Profil - OSIS & MPK SMA YAS SINDANGKERTA" />
+  <meta property="og:description" content="Halaman profil anggota OSIS & MPK." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" />
+  <meta property="og:url" content="https://GANTI-DENGAN-DOMAIN-KAMU/pages/profil.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link id="theme-stylesheet" rel="stylesheet" href="/css/theme-dark-blue.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-brand">
+      <a href="/index.html">
+        <img src="https://raw.githubusercontent.com/zura-bot/ZuraOppicial.github.io/00b74876079a1891cb0f666cfd6704d89ae6676d/index/6fa69016-efe7-443b-87d0-8ca1ca2a18a1.png" alt="Logo Sekolah" />
+      </a>
+      <div>
+        <h1>OSIS MPK SMA YASSIN</h1>
+        <span>Forum Aspirasi & Informasi Siswa</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-toggle" aria-label="Ganti tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"></path>
+        </svg>
+      </button>
+      <button id="hamburger-btn" class="hamburger-btn" aria-label="Buka menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="marquee-slogan">
+    <div class="marquee-track">
+      <span>Prestasi Kahiji Budaya Juara</span>
+      <span>Prestasi Kahiji Budaya Juara</span>
+    </div>
+  </div>
+
+  <nav id="main-nav" class="main-nav">
+    <a href="/index.html">Beranda</a>
+    <a href="/pages/berita.html">Berita</a>
+    <a href="/pages/dokumentasi.html">Dokumentasi</a>
+    <a href="/pages/profil.html" class="active">Profil</a>
+  </nav>
+
+  <div id="nav-overlay" class="nav-overlay"></div>
+
+  <!-- ===== Lagi ngecek status login ===== -->
+  <div id="profil-loading" class="auth-checking">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- ===== Belum login ===== -->
+  <section class="profil-section" id="profil-guest" hidden>
+    <div class="section-heading">
+      <h3>Kamu belum masuk</h3>
+      <p>Masuk atau daftar dulu buat lihat dan kelola profil kamu.</p>
+    </div>
+
+    <div class="profil-cta-box">
+      <a href="/pages/admin/login-member.html" class="btn-primary">Masuk Akun</a>
+      <a href="/pages/admin/daftar.html" class="btn-secondary">Daftar Akun</a>
+    </div>
+  </section>
+
+  <!-- ===== Pengguna yang dicari gak ada ===== -->
+  <section class="profil-section" id="profil-notfound" hidden>
+    <div class="section-heading">
+      <h3>Pengguna tidak ditemukan</h3>
+      <p>Akun ini mungkin gak ada atau udah dihapus.</p>
+    </div>
+  </section>
+
+  <!-- ===== Udah login: profil beneran ===== -->
+  <section class="profil-section" id="profil-isi" hidden>
+    <div class="profile-card">
+      <span class="avatar-donut avatar-donut-lg" id="profil-avatar-slot">
+        <!-- Diisi js/profil.js: foto asli atau avatar donat default -->
+      </span>
+
+      <h4 class="profile-name">
+        <span id="profil-nama"></span>
+        <svg class="verified-badge" id="profil-verified-badge" viewBox="0 0 24 24" hidden><path fill="#3b82f6" d="M12 2l2.4 2.2 3.2-.5.9 3.1 3.1.9-.5 3.2L23 12l-2.2 2.4.5 3.2-3.1.9-.9 3.1-3.2-.5L12 23l-2.4-2.2-3.2.5-.9-3.1-3.1-.9.5-3.2L1 12l2.2-2.4-.5-3.2 3.1-.9.9-3.1 3.2.5z"/><path d="M8.5 12.5l2.2 2.2 4.3-4.3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </h4>
+
+      <span id="profil-username" class="profil-username"></span>
+      <span id="profil-role-badge" class="badge" hidden></span>
+
+      <p id="profil-bio" class="profil-bio"></p>
+
+      <div class="profil-card-actions">
+        <button id="profil-edit-btn" class="btn-secondary">Edit Profil</button>
+        <button id="profil-logout-btn" class="btn-secondary">Keluar</button>
+      </div>
+    </div>
+
+    <!-- Form edit profil, disembunyiin sampai tombol "Edit Profil" diklik -->
+    <form id="profil-edit-form" class="admin-form profil-edit-form" hidden>
+      <label for="profil-edit-nama">Nama</label>
+      <input type="text" id="profil-edit-nama" required />
+
+      <label for="profil-edit-bio">Bio</label>
+      <textarea id="profil-edit-bio" rows="3" placeholder="Ceritain dikit tentang kamu"></textarea>
+
+      <label for="profil-edit-foto">URL Foto Profil (opsional)</label>
+      <input type="url" id="profil-edit-foto" placeholder="https://..." />
+
+      <label for="profil-edit-token">Token GitHub (buat upload foto sendiri)</label>
+      <input type="password" id="profil-edit-token" placeholder="Isi kalau mau upload foto langsung" />
+
+      <div class="upload-github-box">
+        <input type="file" id="profil-edit-foto-file" accept="image/*" />
+        <button type="button" id="profil-edit-foto-upload-btn" class="btn-secondary btn-sm">Upload ke GitHub</button>
+      </div>
+      <span id="profil-edit-foto-upload-status" class="upload-status"></span>
+
+      <div id="profil-edit-alert" class="pesan-alert" hidden></div>
+
+      <div class="confirm-modal-actions">
+        <button type="button" id="profil-edit-cancel-btn" class="btn-secondary">Batal</button>
+        <button type="submit" id="profil-edit-save-btn" class="btn-primary">Simpan</button>
+      </div>
+    </form>
+
+    <div class="profile-tabs">
+      <button class="filter-btn active" data-tab="berita-saya">Berita Saya</button>
+      <button class="filter-btn" data-tab="dokumentasi-saya">Dokumentasi Saya</button>
+      <button class="filter-btn" data-tab="proker-saya">Proker Saya</button>
+    </div>
+
+    <div class="empty-state">
+      <p>Belum ada postingan. Fitur upload Berita/Dokumentasi/Proker langsung dari akun kamu masih disiapkan, tunggu update selanjutnya ya.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 OSIS & MPK SMA YAS SINDANGKERTA. Seluruh hak cipta dilindungi.</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/USERNAME" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>
+      </a>
+      <a href="https://tiktok.com/@USERNAME" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+      </a>
+    </div>
+  </footer>
+
+  <a href="/pages/pesan.html" class="fab-pesan" aria-label="Kirim Pesan Anonim">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </a>
+
+  <nav class="bottom-tab-bar">
+    <a href="/index.html" class="bottom-tab-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      <span>Beranda</span>
+    </a>
+    <a href="/pages/berita.html" class="bottom-tab-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+      <span>Berita</span>
+    </a>
+    <a href="/pages/pesan.html" class="bottom-tab-link bottom-tab-center" aria-label="Saran">
+      <span class="bottom-tab-center-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      </span>
+      <span>Saran</span>
+    </a>
+    <a href="/pages/dokumentasi.html" class="bottom-tab-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+      <span>Dokumentasi</span>
+    </a>
+    <a href="/pages/profil.html" class="bottom-tab-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <script type="module" src="/js/firebase-config.js"></script>
+  <script type="module" src="/js/home.js"></script>
+  <script type="module" src="/js/profil.js"></script>
+</body>
+</html>
